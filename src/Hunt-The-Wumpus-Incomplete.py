@@ -2,13 +2,12 @@
 # KEN, 05 April 2022
 #
 # Written as a "skeleton" so that other people can write a fully-
-# functioning "Hunt the Wumpus" game in around one hour or so if they
+# functioning "Hunt the Wumpus" game in around one hour if they
 # are new to the language.
 #--------------------------------------------------------------------
 
 # This is needed for wumpus moving in function select_new_wumpusroom
 import random
-
 
 # Define a "dictionary" variable with all the room nodes.  The way to understand
 # this is that each "key" (1-20) is attached to a 3-room list "value". For example, if you
@@ -19,7 +18,6 @@ cave = {1: [2,3,4], 2: [1,5,6], 3: [1,7,8], 4: [1,9,10], 5:[2,9,11],
 	11: [5,12,17], 12: [6,11,18], 13: [7,14,18], 14: [8,13,19], 
 	15: [9,16,17], 16: [10,15,19], 17: [11,20,15], 18: [12,13,20], 
 	19: [14,16,20], 20: [17,18,19]}
-
 
 
 # Define the function to be called once, so the user can choose what room he
@@ -67,75 +65,53 @@ def select_new_wumpusroom(myroom):
     print("The wumpus has moved to room", nextroom)
     return nextroom
 
+# Just a useful function if someone wants the wumpus to move
+# randomly from room to adjacent room. Probably for the easiest case
+# the wumpus is fat and lazy and you don't need this function
+
+def do_i_small_a_wumpus(myroom, wumpusroom):
+    nodes=cave[wumpusroom]
+    if myroom in nodes:
+        print("You smell something terrible nearby.")
 
 
-
-
-
-# Demonstrate printing out a dictionary object and how to use it
+# Start the game!
 
 print("\n\n*** HUNT THE WUMPUS ***\n")
 
-
-print("--- Now we show different options")
-print (cave)
-print("-----")
-print(cave[11])
-print("-----")
-print(cave[11][0], cave[11][1], cave[11][2], cave[11])
-print("-----")
-nodes = cave[11]  # Here cave is a type "dictionary" and nodes is type "list"
-print(nodes)
-print("-----")
-print(len(cave))
-print("-----")
-
-
-# Pick a starting room for us and for the wumpus    
+# Pick a starting room for the player   
 print("Pick a room for yourself")
 myroom=choose_start_room()
+
+# Pick a starting room for the wumpus - just for testing, should be random   
 print("Pick a room for the wumpus")
 wumpusroom=choose_start_room()
 
+# Initialize shootroom
+shootroom = 0
 
-
-# Now take turns running around the maze
-myroom=select_new_room(myroom)
-wumpusroom=select_new_wumpusroom(wumpusroom)
-
-myroom=select_new_room(myroom)
-wumpusroom=select_new_wumpusroom(wumpusroom)
-
-myroom=select_new_room(myroom)
-wumpusroom=select_new_wumpusroom(wumpusroom)
-
-myroom=select_new_room(myroom)
-wumpusroom=select_new_wumpusroom(wumpusroom)
-
-
-
-# NOW CREATE YOUR OWN HUNT-THE-WUMPUS GAME. SHOULD BE VERY EASY TO DO WITH THESE
-# FUNCTIONS YOU FIND ABOVE!
-#
-#  Easiest suggestion: Create a "while" loop on the outside
-#       1. Ask the user if she wants to shoot (s) or move (m) or quit (q)
-#       2. Get desired room 
-#       3. If user shoots into room and wumpus is there, she wins 
-#            "Congratulations! You shot the wumpus"
-#       4. If user moves into room and wumpus is there, she loses
-#            "You find yourself face to face with the wumpus"
-#            "It eats you whole"
-#            "You have met your demise"
-#       5. Do not move the wumpus - the wumpus always stays in the same room 
-#
-#  Next improvement
-#       5. First see if wumpus is in adjacent room
-#       6. If yes, print "You smell something terrible nearby."
-#
-#  If you can do this, then you have implemented 85% of the original game!
-#  The original game also had bats that could fly you to a random room.
-#  The original game also had a "bottomless pit" and if you stepped into that room, you die
-#
+# The hunt is on!  We keep looping until you get the wumpus or the wumpus gets you!
+while True:
+    do_i_small_a_wumpus(myroom, wumpusroom)
+    answer=input("Do you want to (s) shoot, (m) move, or (q) quit?")
+    if answer == "q":
+        break
+    elif answer == "m":
+        myroom=select_new_room(myroom)
+    elif answer == "s":
+        shootroom=select_new_room(myroom)
+    else:
+        print("You must enter s, m, or q")
+    if myroom == wumpusroom:
+        print("You find yourself face to face with the wumpus.")
+        print("It eats you whole.")
+        print("You have met your demise.")
+        break
+    elif shootroom == wumpusroom:
+        print("Congratulations! You shot the wumpus.")
+        break
+    
+print("Game over.")
 
 
 
