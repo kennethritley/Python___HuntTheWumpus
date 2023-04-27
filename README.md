@@ -1,4 +1,4 @@
-# Project Title
+# Hunt the Wumpus
 
 This is a working example of the famous Hunt-the-Wumpus
 game in Python.  It is not a good example because it 
