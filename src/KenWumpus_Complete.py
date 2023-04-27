@@ -6,7 +6,8 @@
 # are new to the language.
 #
 # My version seems a lot easier to understand and maintain than
-# that recursive version
+# that recursive version. Plus it only has around a third of the
+# lines of code!
 #--------------------------------------------------------------------
 
 # This is needed for wumpus moving in function select_new_wumpusroom
